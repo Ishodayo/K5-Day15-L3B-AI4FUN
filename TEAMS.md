@@ -7,7 +7,7 @@
 - Tên nhóm: AI4FUN
 - Lớp: L3B
 - Track: ____
-- Link repo: ____
+- Link repo: https://github.com/Ishodayo/K5-Day15-L3B-AI4FUN
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
