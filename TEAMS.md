@@ -11,10 +11,10 @@
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
-| 1 | Nguyễn Thành Nam | 2A202603934 | Đội trưởng | Điều phối, spec và kiến trúc giải pháp, slide |
-| 2 | Phùng Quang Trà | 2A202604094 | Thành viên | Bằng chứng pain: phỏng vấn lab coach/TA và học viên, impact |
-| 3 | Lê Hiền Hiếu | 2A202603940 | Thành viên | Đào data pre-class, data card, bộ câu thử và metric |
-| 4 | Đặng Quang Duy | 2A202603984 | Thành viên | Bản chạy thử (code + gọi model), mô phỏng chi phí |
+| 1 | Nguyễn Thành Nam | 2A202603934 | Đội trưởng | Điều phối, phỏng vấn lab coach/TA và học viên |
+| 2 | Phùng Quang Trà | 2A202604094 | Thành viên | Phỏng vấn lab coach/TA và học viên |
+| 3 | Lê Hiền Hiếu | 2A202603940 | Thành viên | Đào data pre-class |
+| 4 | Đặng Quang Duy | 2A202603984 | Thành viên | Đào data pre-class |
 
 **Quy tắc điền**
 - **Lớp:** `L3A` hoặc `L3B`. **Track:** một chữ `A` (EdTech), `B` (Y tế), `C` (Du lịch), `D` (Thương mại điện tử), `E` (Tài chính) hoặc `F` (Làn khác). **Link repo:** link GitHub công khai của nhóm.
