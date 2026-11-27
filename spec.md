@@ -15,19 +15,28 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `data/prec
 - Việc họ cố làm xong (`động từ + đối tượng + bối cảnh`, không có chữ AI):
 - Hôm nay họ giải bằng gì, hỏng ở đâu, vì sao chưa bỏ:
 - Pain (KHÔNG chữ AI): ai — đang làm gì — vướng đâu — hậu quả gì:
-- Bằng chứng — số chính + kết luận (chi tiết: `evidence/summary.md`): __
+- Bằng chứng — số chính + kết luận (chi tiết: `evidence/summary.md`): **Đào data (nguồn đạt ngưỡng, script chạy lại được):** 399/1.968 lượt trả lời bài ôn lần đầu sai (20,3%) và **0/399 có làm lại** · **18/83 câu đủ mẫu có ≥50% lượt sai dồn vào 1 đáp án** (vd `d05-on-cot-canvas` 12/15 sai, 12/12 cùng chọn A) · lab bị bỏ qua 102/453 (22,5%) · 1.107 câu hỏi trợ giảng dồn vào vài phần bài. **Phỏng vấn P1** (1 người, chưa đạt ngưỡng): giảng viên muốn biết lớp sai dồn vào đâu để buổi sau "xoáy vào phần đó". **Kết luận:** có những ý nhiều học viên sai cùng một kiểu và không ai sửa; người cần thấy là giảng viên. Chưa xác nhận được hiện giảng viên gom các tín hiệu này mất bao lâu.
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
 
 | Hướng | Bao nhiêu người gặp | Bao nhiêu lần / tháng | Mỗi lần tốn gì | Impact / tháng | Làm kịp không | Chọn? |
 |---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
+| **A. Thẻ điểm nghẽn pre-class cho giảng viên** — gom bài ôn sai, đáp án sai dồn, lab bỏ qua, câu hỏi trợ giảng theo câu / phần bài | Giảng viên phụ trách buổi lý thuyết của **4 lớp** (L3A, L3B, L2A, L2B — TKB), 1 giảng viên / lớp / buổi *(tự ước tính)* | **15 buổi lý thuyết / lớp** (TKB Phase 1, 05–28/11) | Muốn biết lớp vướng gì phải gom tay ~12 câu ôn + ~8 phần bài / ngày (data) ≈ 30 phút; đọc thẻ ≈ 5 phút → **tiết kiệm ~25 phút / buổi** *(tự ước tính)*. Không gom thì giảng theo cảm tính, ý cả lớp hiểu sai không ai sửa (0/399 lượt sai có làm lại) | 4 × 15 × 25 = **1.500 phút ≈ 25 giờ giảng viên / tháng** | Có — data đã tổng hợp, workflow cố định 1 lần gọi AI | ✅ Chọn |
+| B. Thẻ ôn đầu buổi cho lab coach/TA, chỉ từ bài ôn cuối ngày *(hướng CP1)* | Lab coach/TA của 4 lớp — số người chưa có | 14 buổi LAB / lớp (TKB) | Chọn 1–3 ý ôn trong ~3 phút đầu buổi *(tự ước tính, canvas CP1)* | 4 × 14 × 3 = 168 phút ôn đúng ý — nhỏ hơn A, và bỏ sót lab bỏ qua + câu hỏi trợ giảng | Có | ❌ Loại ở CP2 |
+| C. Nhắn riêng / cá nhân hoá cho từng học viên làm sai *(P1 gợi ý)* | 77 học viên có làm bài ôn (data) trên 1.083 học viên của 4 lớp (TKB) | 399 lượt sai lần đầu trong 05–25/11 (data) | Mỗi lượt sai không được nhắc → học viên mang hiểu lầm sang bài sau | 399 lượt sai chưa được sửa — chưa quy ra phút | Không — cần dữ liệu từng học viên, kênh gửi, người duyệt từng tin | ❌ Loại |
+| D. Kiểm nội dung bài giảng / quiz bị sai *(kiểu 1 của P1)* | Giảng viên / người làm nội dung — số chưa có | Dấu hiệu ở 18/83 câu đủ mẫu (sai dồn 1 đáp án, data) — chưa biết bao nhiêu câu thật sự sai đề | Học viên học theo nội dung sai | Chưa tính được | Không — ngoài thẩm quyền nhóm | ❌ Loại |
 
-- **Impact / tháng** của hướng chọn = __ người × __ lần × __ phút = __ — nguồn từng thừa số: __ (không có nguồn thì ghi rõ *(tự ước tính)*)
+*TKB = thời khoá biểu AI20K Khoá V do BTC phát (Phase 1, 05/11–28/11/2026, nghỉ 23–24/11; xem 27/11/2026): 4 lớp L3A 360 · L3B 361 · L2A 220 · L2B 142 học viên; mỗi lớp 15 buổi lý thuyết (11 LEC trực tiếp + 4 online) và 14 buổi LAB.*
+
+- **Impact / tháng** của hướng chọn = **4 người × 15 lần × 25 phút = 1.500 phút ≈ 25 giờ giảng viên / tháng** — nguồn từng thừa số: **4** = số lớp trong TKB, mỗi lớp 1 giảng viên phụ trách buổi *(tự ước tính — TKB không ghi tên giảng viên)*; **15** = số buổi lý thuyết / lớp trong Phase 1 (TKB, ~1 tháng); **25 phút** *(tự ước tính)*: mỗi ngày có ~12 câu ôn và ~8 phần bài cần xem (data: 156 câu, 99 phần bài / 13 ngày), gom tay ≈ 30 phút, đọc thẻ ≈ 5 phút — chưa có người dùng xác nhận số phút (P1 không nói). Ngoài thời gian: 20,3% lượt trả lời bài ôn lần đầu sai và 0/399 có làm lại → mỗi ý cả lớp hiểu sai mà giảng viên không thấy thì không ai sửa.
 - Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):
+  - **B — lab coach/TA, chỉ bài ôn (hướng CP1):** loại ở CP2 vì P1 nói người nhìn chỗ học viên sai để "hôm sau xoáy vào phần đó" là **giảng viên**; chỉ dùng bài ôn thì bỏ sót lab bị bỏ qua (102/453) và câu hỏi trợ giảng (1.107 câu).
+  - **C — nhắn riêng từng học viên:** phải chỉ ra học viên cụ thể (trái luật data: không đoán ai là ai, không xếp hạng); tin gửi thẳng học viên mà sai thì không rút lại được; không kịp làm kênh gửi + duyệt trong hackathon.
+  - **D — kiểm nội dung / quiz sai:** P1: nội dung và quiz được validate trước khi lên, lỗi nội dung đi luồng riêng qua giảng viên → nhóm không động vào; thẻ chỉ nêu dấu hiệu "có thể câu hỏi gây nhầm" để giảng viên tự xem đề.
 - Số lần / tháng của từng kiểu người dùng (dùng cho persona ở §8):
+  - **Giảng viên chỉ đọc thẻ tự động 21:00:** 15 phiên / tháng (1 thẻ / buổi lý thuyết — TKB), 1 lượt / phiên *(tự ước tính)*.
+  - **Giảng viên hỏi tiếp theo mã câu** (chi tiết câu, quiz nháp): 15 phiên / tháng (TKB), ~3 lượt / phiên *(tự ước tính)*.
+  - **Người phụ trách học thuật xem nhiều lớp** (vai của P1): 4 lớp × 15 buổi = 60 phiên / tháng (TKB), ~2 lượt / phiên *(tự ước tính)*.
 
 ## §3. Giải pháp tương tự *(guide 2.1)*
 - [sản phẩm / tính năng gần giống]: một điều đáng học · một điều đáng né · mình khác gì
