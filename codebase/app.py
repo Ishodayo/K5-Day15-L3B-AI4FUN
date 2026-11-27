@@ -1,10 +1,6 @@
-"""Khung chạy bản chạy thử tối thiểu (dòng lệnh): gõ đầu vào → answer() trong agent.py → in kết quả.
-
-Chạy bằng: python run.py   (macOS/Linux có thể là python3, Windows có thể là py)
-Nhóm thay bằng giao diện của mình (web, bot…) nhưng giữ `python run.py` là lệnh duy nhất
-để chạy bản chạy thử (sửa hàm run_app() trong run.py nếu cần).
-"""
+"""Khởi động Streamlit Class Pulse; có thể dùng --cli khi chạy trực tiếp file này."""
 import os
+import importlib.util
 import sys
 
 for _stream in (sys.stdout, sys.stderr, sys.stdin):
@@ -26,7 +22,7 @@ def _where(e):
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return os.path.relpath(p, base).replace(os.sep, "/") if p.startswith(base) else path
 
-def main() -> int:
+def cli() -> int:
     try:
         import tracing
         from agent import answer
@@ -63,6 +59,21 @@ def main() -> int:
         print(result.get("output", "") if isinstance(result, dict) else result)
         print("   (model: %s · gọi model %d lần · công cụ %d lần · token vào %d / ra %d)"
               % (", ".join(s["models"]) or "—", s["model_calls"], s["tool_calls"], s["tokens_in"], s["tokens_out"]))
+
+def main() -> int:
+    if "--cli" in sys.argv[1:]:
+        return cli()
+    if importlib.util.find_spec("streamlit") is None:
+        print("Chưa cài Streamlit. Chạy: python -m pip install -r requirements.txt")
+        return 1
+    from streamlit.web import cli as streamlit_cli
+    sys.argv = ["streamlit", "run", os.path.join(os.path.dirname(__file__), "ui.py"),
+                "--server.address=127.0.0.1", "--server.headless=true",
+                "--browser.gatherUsageStats=false"]
+    try:
+        return streamlit_cli.main()
+    except KeyboardInterrupt:
+        return 0
 
 
 if __name__ == "__main__":

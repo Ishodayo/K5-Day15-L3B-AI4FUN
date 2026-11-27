@@ -47,7 +47,11 @@ git add -A && git commit -m "Khung repo từ starter-repo" && git push
 
 ## Chạy trong 3 phút
 
-Bộ khung cần **Python 3.10 trở lên** (Python 3.9 có sẵn trên macOS vẫn chạy được, chỉ in một dòng nhắc). **Không cần `pip install`.**
+Bộ khung cần **Python 3.10 trở lên**. Để dùng giao diện Streamlit, cài phụ thuộc một lần bằng
+`python -m pip install -r requirements.txt`.
+
+`python run.py` chạy giao diện Streamlit Class Pulse; mở URL được in ra trong trình duyệt. Hướng dẫn thao tác và quay demo xem
+[docs/demo-giao-dien.md](docs/demo-giao-dien.md). Để dùng dòng lệnh: `python codebase/app.py --cli`.
 
 **Bước 1 — Mở cửa sổ lệnh ngay trong thư mục repo**
 
@@ -68,7 +72,7 @@ Gõ `dir` (Windows) hoặc `ls` (macOS / Linux): thấy `run.py` và `README.md`
 
 - Windows: gõ `python` mà mở Microsoft Store hoặc báo không có lệnh → dùng `py`. Chưa có Python: cài từ python.org, **tick "Add python.exe to PATH"**, mở lại PowerShell.
 - macOS: báo `command not found: python` là bình thường → dùng `python3`.
-- `python run.py` in ra "[câu trả lời giả — chưa nối model] …" là khung chạy đúng. Nối model thật: [docs/connect-model.md](docs/connect-model.md).
+- Khi chưa cấu hình model thật, phần AI hiển thị "[câu trả lời giả — chưa nối model] …". Nối model thật: [docs/connect-model.md](docs/connect-model.md).
 
 Trong README này lệnh viết là `python …`; máy nhóm cần `python3` hay `py` thì gõ thay.
 

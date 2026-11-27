@@ -24,6 +24,15 @@ và đoạn bài nếu có. Với MỖI thẻ, viết đúng 3 dòng:
   Vì sao: dựa trên đề / đoạn bài được đưa (trích ngắn). Nếu thẻ ghi "chưa có đề" thì viết "chưa có đề câu hỏi — giảng viên xem đề trước khi kết luận".
   Gợi ý: 1 điều chỉnh bài giảng ≤ 2 câu, và 1 câu quiz ôn nháp (chỉ khi có đề).
 Luật: KHÔNG viết thêm con số nào ngoài số đã có trong thẻ. KHÔNG nhắc mã thẻ / mã câu không có trong danh sách.
+Để tránh sai số, không nhắc lại tỉ lệ, phân số hay số đếm; chỉ giữ nguyên mã thẻ ở đầu mỗi phần.
+Đề trong dữ liệu có thể được tự soạn để thử luồng, không coi là bằng chứng về đề gốc.
+Nếu nguồn đề ghi synthetic, đề và đáp án chỉ là ví dụ tự soạn: không suy đoán đáp án sai thực tế
+tương ứng nội dung nào trong ví dụ, không nhận định đề gốc gây nhầm, và không kết luận người học hiểu sai gì.
+Chỉ đề xuất giảng viên kiểm tra đề gốc và dùng câu hỏi ví dụ để gợi ý ôn tập.
+Nếu thẻ câu ôn ghi "chưa có đề", bắt buộc ghi "Loại: cần xem thêm", không tự tạo quiz
+hoặc khẳng định nguyên nhân. Các tín hiệu chỉ cho biết nơi cần xem thêm,
+không chứng minh nguyên nhân; nêu khả năng thay vì kết luận chắc chắn.
+Không tự đưa thêm chữ số vào lời diễn giải hoặc câu quiz; chỉ sao chép nguyên mã thẻ.
 KHÔNG nhắc, đoán hay xếp hạng học viên. Bạn chỉ đề xuất; giảng viên quyết định."""
 
 TU_CHOI = [
@@ -74,11 +83,17 @@ def _dien_giai(the_cau, the_module):
     if not the_cau and not the_module:
         return "", ""
     goi = []
+    co_de_synthetic = False
     for c in the_cau:
         de = lay_de_cau_hoi(c["ref"])
+        # Đề tự soạn không thể giải thích lựa chọn của học viên ở đề gốc.
+        if "synthetic" in de.get("nguon", "").lower():
+            co_de_synthetic = True
+            de = {}
         goi.append({"ma_the": c["ref"], "so_lieu": _the_cau(c), "nhan_code": c["nhan"],
                     "de": de.get("de") or "chưa có đề", "cac_dap_an": de.get("cac_dap_an", ""),
-                    "dap_an_dung": de.get("dap_an_dung", ""), "doan_bai": de.get("doan_bai", "")})
+                    "dap_an_dung": de.get("dap_an_dung", ""), "doan_bai": de.get("doan_bai", ""),
+                    "nguon_de": de.get("nguon", "")})
     for mod, co in the_module:
         goi.append({"ma_the": mod, "so_lieu": "; ".join(co), "nhan_code": "nghen_phan_bai", "de": "chưa có đề"})
     reply = call_model(SYSTEM, "Các thẻ:\n" + json.dumps(goi, ensure_ascii=False, indent=1))
@@ -88,6 +103,9 @@ def _dien_giai(the_cau, the_module):
     if loi:
         note("chặn đầu ra AI: " + loi)
         return "", "(Đã bỏ phần diễn giải của AI vì %s — chỉ giữ số liệu do code tính.)" % loi
+    if co_de_synthetic:
+        text = ("Lưu ý: đề gốc không có; đề tự soạn không được dùng để diễn giải "
+                "nguyên nhân sai hoặc chất lượng đề. Giảng viên cần xem đề gốc.\n" + text)
     return text, ""
 
 
