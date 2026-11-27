@@ -9,7 +9,7 @@
 |---|---|---|---|---|---|---|---|
 | 1 | `data/review_stats.csv` | Chạy tự động `evidence/count_review.py` từ answers.csv + events.csv | Lượt làm lần đầu, tỷ lệ sai, đáp án sai chọn nhiều nhất và cờ (flags) đủ mẫu (`≥ 10` lượt) theo từng câu ôn | Xác định câu ôn bị nghẽn, lọc câu thiếu mẫu và cấp số liệu chuẩn cho thẻ | **Thật** | **156 dòng** (156 câu ôn; 83 câu đủ mẫu ≥ 10 lượt) | Sẵn sàng |
 | 2 | `data/struggle_by_module.csv` | Chạy tự động `evidence/count_struggle.py` từ answers.csv, events.csv, chat.csv | Tỷ lệ sai thực hành, tỷ lệ bỏ qua lab, số câu hỏi trợ giảng và slide bị highlight hỏi nhiều nhất theo từng module/lab | Bắt các điểm nghẽn giảng dạy và thực hành ngoài bài ôn cuối ngày | **Thật** | **99 dòng** (module & mini lab) | Sẵn sàng |
-| 3 | `data/question_bank.csv` | Trích ngắn / viết lại từ pre-class | Đề bài, các đáp án, đáp án đúng và đoạn bài giảng ngắn gắn đúng mã câu (`ref`) | Cấp căn cứ ngữ cảnh để AI đề xuất hướng giảng bài đúng trọng tâm và tạo quiz để học phần kiến thức đó | **Tài liệu khoá** *(trích ngắn / viết lại)* | **0 dòng** *(mới có header 8 cột)* | Đang nạp trước CP3 |
+| 3 | `data/question_bank.csv` | Dùng AI tổng hợp | Đề bài, các đáp án, đáp án đúng và đoạn bài giảng ngắn gắn đúng mã câu (`ref`) | Cấp căn cứ ngữ cảnh để AI đề xuất hướng giảng bài đúng trọng tâm và tạo quiz để học phần kiến thức đó | **Synthetic** | **19 dòng** | Sẵn sàng |
 
 
 ---
@@ -48,13 +48,13 @@
 
 | Hạng mục | Chi tiết |
 |---|---|
-| **Dùng để làm gì** | Nguồn cho công cụ `lay_de_cau_hoi`, giúp AI có căn cứ phân biệt *hiểu sai chung* với *câu hỏi gây nhầm* và soạn câu quiz ôn nháp bám sát bài học. |
-| **Nguồn gốc** | Nhóm trích ngắn / viết lại từ nền tảng pre-class của khoá (truy cập bằng tài khoản học viên của nhóm). **Không** sao chép nguyên văn toàn bộ tài liệu khoá học. |
+| **Dùng để làm gì** | Nguồn cho công cụ `lay_de_cau_hoi`, giúp AI có căn cứ ngữ cảnh để đề xuất hướng giảng bài đúng trọng tâm và tạo quiz bám sát phần kiến thức đó |
+| **Nguồn gốc** | Vì không tìm được câu hỏi nào gần giống trong bộ đề thật trên website Pre-class nên dùng AI để dựa vào ref và kc_code sinh dữ liệu tổng hợp |
 | **Quy trình xử lý** | Gắn khớp khóa ngoại `ref`, `lesson_id`, `kc_code` đúng 1-1 với `review_stats.csv`; ưu tiên nạp các câu bị gắn cờ sai cao ở Day01–Day05. |
 | **Cấu trúc cột (8 cột)** | `ref`, `lesson_id`, `kc_code`, `de`, `cac_dap_an`, `dap_an_dung`, `doan_bai`, `nguon` |
-| **Quy mô** | **0 dòng** *(hiện mới tạo file header — đang nạp 8–10 câu ưu tiên trước CP3; sẽ cập nhật lại số dòng chính xác khi hoàn tất)*. |
-| **Phiên bản / ngày lấy** | Trích lập ngày `27–28/11/2026` từ phiên bản bài giảng pre-class hiện hành. |
-| **Nhãn dữ liệu** | **Tài liệu khoá** *(trích đoạn ngắn / viết lại có ghi rõ cột `nguon`)*. |
+| **Quy mô** | **19 dòng** |
+| **Phiên bản / ngày lấy** | Tổng hợp ngày `27–28/11/2026` |
+| **Nhãn dữ liệu** | **Synthetic**. |
 | **Giới hạn** | Chỉ phủ các câu ưu tiên dùng cho demo & bộ câu thử; với các câu chưa có trong file, hệ thống trả về `"chưa có đề"` và yêu cầu giảng viên tự kiểm đề trước khi kết luận. |
 
 ---
