@@ -34,12 +34,15 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `data/prec
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
 - **Lát cắt MỘT CÂU** (1 người dùng · 1 việc · 1 quyết định AI · 1 kết quả): **Một giảng viên · trước buổi học tiếp theo hỏi "ngày N lớp vướng gì" · code gom tín hiệu nghẽn (bài ôn sai lần đầu, đáp án sai dồn, lab bỏ qua, câu hỏi trợ giảng, slide bị bôi đen hỏi) theo câu / phần bài, AI quyết định mỗi điểm là *hiểu sai chung / câu hỏi gây nhầm / nghẽn thực hành / cần xem thêm* kèm gợi ý điều chỉnh bài giảng + 1 câu quiz ôn nháp · giảng viên chọn 1–3 điểm để sửa bài.**
+- **Hai cách vào:** (a) **tự động** — cuối mỗi ngày học (21:00) hệ thống tự tạo thẻ ngày đó và gửi cho **giảng viên phụ trách buổi sau** (chỉ gửi giảng viên, là bản nháp; không bao giờ gửi học viên); (b) **giảng viên tự hỏi** theo ngày hoặc mã câu.
+- **Việc tiếp theo trên thẻ** (gọi theo mã câu / module, không cần nhớ hội thoại): xem chi tiết một câu (số + đề + đáp án + đoạn bài) · hỏi "sai do đề hay do học viên" (hiện căn cứ, không kết luận thay — lỗi nội dung đi luồng kiểm duyệt riêng của giảng viên, theo P1) · soạn quiz ôn nháp · gợi ý hoạt động giảng lại 3 phút.
 - Không làm: (1) không chỉ ra / xếp hạng học viên cụ thể; (2) không tự gửi quiz hay thông báo cho học viên; (3) không sửa nội dung trên pre-class; (4) không kết luận với câu dưới 10 lượt trả lời; (5) không trả lời câu hỏi kiến thức thay trợ giảng.
 - **Sơ đồ:**
 
 ```mermaid
 flowchart TD
-  GV(["Giảng viên: Ngày 3 lớp vướng gì?"]) --> P{Code đọc yêu cầu}
+  AUTO(["Tự động 21:00 cuối ngày N"]) --> T1
+  GV(["Giảng viên: Ngày 3 lớp vướng gì? / chi tiết câu / soạn quiz"]) --> P{Code đọc yêu cầu}
   P -- "xếp hạng / học viên nào / gửi / bỏ qua luật" --> TC[Từ chối + hướng thay thế]
   P -- "thiếu ngày / mã câu" --> HL[Hỏi lại — G10]
   P -- "ngày N / mã câu" --> T1[[lay_tin_hieu_ngay / lay_tin_hieu_cau<br/>đọc data/review_stats.csv + struggle_by_module.csv]]
@@ -51,7 +54,8 @@ flowchart TD
   K -- trượt --> BO[Bỏ phần AI, giữ thẻ số liệu + ghi lý do]
   K -- qua --> THE[Thẻ điểm nghẽn — BẢN NHÁP]
   BO --> THE
-  THE --> DUYET([Giảng viên duyệt / sửa / bỏ → tự đưa vào bài giảng])
+  THE -- "chỉ gửi giảng viên" --> DUYET([Giảng viên duyệt / sửa / bỏ → tự đưa vào bài giảng])
+  DUYET -. "hỏi tiếp theo mã câu" .-> GV
 ```
 
 - **Hình dạng:** [x] workflow cố định · [ ] một agent · [ ] nhiều agent — các bước luôn giống nhau (đọc số → gắn cờ → diễn giải), AI chỉ cần làm 1 bước diễn giải nên rẻ và dễ đo. Không chọn agent vì không có đường đi nào phải để AI tự chọn; để AI tự gọi công cụ chỉ thêm chỗ bịa số.
@@ -75,7 +79,7 @@ flowchart TD
   | G8/G9 — dễ bỏ qua, dễ sửa | Thẻ ghi rõ BẢN NHÁP; giảng viên chọn 1–3 thẻ, bỏ phần còn lại |
   | G2 — nói rõ làm tốt đến đâu | Dòng "Giới hạn" cuối thẻ: số toàn khoá, data không nói vì sao |
 
-- Phần nào còn giả: **model đang ở chế độ giả** (`MODEL_PROVIDER=fake`) → mục D của thẻ là câu giả. `data/question_bank.csv` **chưa có đề** → AI chưa phân biệt được hiểu sai chung với câu hỏi gây nhầm. Số liệu trong `data/*_stats` là **thật** (tổng hợp từ data BTC). Data lớp tự dựng (theo khung answers.csv, đúng lesson_id / kc_code) — đang làm, sẽ gắn nhãn `synthetic`.
+- Phần nào còn giả: **lượt tự động 21:00 và các việc tiếp theo (chi tiết câu, quiz) chưa code** — làm trước CP3; bản chạy thử sẽ ghi thẻ ra file thay cho gửi thật. **model đang ở chế độ giả** (`MODEL_PROVIDER=fake`) → mục D của thẻ là câu giả. `data/question_bank.csv` **chưa có đề** → AI chưa phân biệt được hiểu sai chung với câu hỏi gây nhầm. Số liệu trong `data/*_stats` là **thật** (tổng hợp từ data BTC). Data lớp tự dựng (theo khung answers.csv, đúng lesson_id / kc_code) — đang làm, sẽ gắn nhãn `synthetic`.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -99,7 +103,7 @@ flowchart TD
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 14 câu (thuong 4 · kho 7 · tu_choi 3) · metric: `eval/metric_spec.yaml` (4 metric)
-- **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu có số liệu hoặc mã câu không có trong data (metric `so_lieu_co_nguon`)"
+- **Chuẩn "đạt"** — **ĐÃ CHỐT tại CP2 27/11/2026, cả nhóm đồng ý, giữ nguyên đến 23:59 Thứ Bảy 28/11:** "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu có số liệu hoặc mã câu không có trong data (metric `so_lieu_co_nguon`)"
 - Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
