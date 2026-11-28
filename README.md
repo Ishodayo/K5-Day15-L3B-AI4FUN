@@ -55,6 +55,8 @@ Bộ khung cần **Python 3.10 trở lên**. Để dùng giao diện Streamlit, 
 
 **Video demo CP3 (30 giây, AI thật):** https://youtu.be/RY1FtwToziE
 
+**Video demo dự phòng CP4:** https://youtu.be/xT0syj2NFUw
+
 **Bước 1 — Mở cửa sổ lệnh ngay trong thư mục repo**
 
 | Windows (PowerShell) | macOS |
@@ -153,5 +155,5 @@ ____
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | slide trong repo (PDF, PPTX, HTML…) hoặc link slide ở form CP4 · link video: https://youtu.be/RY1FtwToziE (demo 30 giây CP3) |
+| 7 | Slide + demo + video dự phòng | slide trong repo (PDF, PPTX, HTML…) hoặc link slide ở form CP4 · video CP4: https://youtu.be/xT0syj2NFUw · video CP3: https://youtu.be/RY1FtwToziE |
 | + | *Bonus:* người dùng thử | `validation/log.md` |

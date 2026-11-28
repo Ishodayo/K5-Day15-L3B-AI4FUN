@@ -7,26 +7,17 @@ st.set_page_config(page_title="Class Pulse", page_icon="✦", layout="wide")
 
 st.markdown("""
 <style>
-    .stApp { background: #f2f6f4; color: #17312d; }
-    .block-container { max-width: 1440px; padding-top: 2.2rem; padding-bottom: 3rem; }
-    h1, h2, h3 { color: #193a34; letter-spacing: -0.025em; }
-    .brand { color: #176b5b; font-size: 1rem; font-weight: 800; letter-spacing: 0.12em; }
-    .eyebrow { color: #176b5b; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.08em; }
-    .subtle { color: #536c65; font-size: 1rem; line-height: 1.6; }
-    .draft { display: inline-block; background: #e5f1eb; color: #176b5b;
+    .block-container { max-width: 1440px; padding-top: 6rem; padding-bottom: 3rem; }
+    h1, h2, h3 { letter-spacing: -0.025em; }
+    .brand { font-size: 1rem; font-weight: 800; letter-spacing: 0.12em; }
+    .eyebrow { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.08em; }
+    .subtle { opacity: 0.8; font-size: 1rem; line-height: 1.6; }
+    .draft { display: inline-block; border: 1px solid currentColor;
              border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.9rem; font-weight: 700; }
-    div[data-testid="stVerticalBlockBorderWrapper"] > div { background: #fff; border: 1px solid #dce8e2;
-             border-radius: 16px; }
-    div.stButton > button[kind="primary"], div.stFormSubmitButton > button[kind="primary"] {
-             background: #176b5b; border-color: #176b5b; color: white; }
+    div[data-testid="stVerticalBlockBorderWrapper"] > div { border-radius: 16px; }
     div.stButton > button, div.stFormSubmitButton > button { border-radius: 10px; min-height: 2.8rem; }
-    hr { border-color: #e4ece8; }
 </style>
 """, unsafe_allow_html=True)
-
-
-def use_example():
-    st.session_state.question = "Ngày 5 lớp vướng gì?"
 
 
 def display_card(output):
@@ -57,7 +48,6 @@ with left:
     st.markdown('<p class="eyebrow">NẮM BẮT NHỊP LỚP</p>', unsafe_allow_html=True)
     st.title("Lớp mình đang vướng ở đâu?")
     st.markdown("Nhìn nhanh tín hiệu pre-class để chuẩn bị cho buổi học tiếp theo.")
-    st.button("Dùng câu hỏi mẫu: Ngày 5 lớp vướng gì?", on_click=use_example, use_container_width=True)
     with st.form("question_form"):
         question = st.text_area("Câu hỏi của bạn", key="question", height=120,
                                 placeholder="Ví dụ: Ngày 5 lớp vướng gì?")
