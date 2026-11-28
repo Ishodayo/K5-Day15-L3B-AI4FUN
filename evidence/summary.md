@@ -28,7 +28,7 @@ Phỏng vấn nhiều vai thì đếm theo từng vai, không cộng chung.
 
 | | Vai | Gặp pain? | Số lần / 1 tháng qua | Lần gần nhất mất | Đang xoay xở bằng |
 |---|---|---|---|---|---|
-| P1 | Phụ trách học thuật / vận hành khoá *(cần xác nhận vai — nói về giảng viên ở ngôi thứ ba)* | Một phần — đồng ý giảng viên *muốn* biết lớp sai dồn vào đâu, nhưng chưa kể một lần cụ thể | không hỏi | không hỏi | không nêu cách hiện tại |
+| P1 | Giảng viên, phụ trách học thuật *(TV2 xác nhận vai 28/11/2026)* | Một phần — đồng ý giảng viên *muốn* biết lớp sai dồn vào đâu, nhưng chưa kể một lần cụ thể | không hỏi | không hỏi | không nêu cách hiện tại |
 
 ## 3. ≥5 trích dẫn hoặc ví dụ nguyên văn (có nguồn, bỏ tên)
 
@@ -61,4 +61,4 @@ Giả thuyết ở `evidence/hypothesis.md` (chép từ canvas CP1, commit `120e
 
 | Vai | Giờ hẹn | Đã xong? |
 |---|---|---|
-| P1 · phụ trách học thuật / vận hành khoá | 27/11/2026 ~18:35, trực tiếp, có ghi âm | ☑ |
+| P1 · giảng viên, phụ trách học thuật | 27/11/2026 ~18:35, trực tiếp, có ghi âm | ☑ |
