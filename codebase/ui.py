@@ -1,7 +1,7 @@
 """Giao diện Streamlit cho bản chạy thử Class Pulse."""
 import streamlit as st
 
-from ui_service import generate_card
+from ui_service import display_lesson_names, generate_card
 
 st.set_page_config(page_title="Class Pulse", page_icon="✦", layout="wide")
 
@@ -21,6 +21,7 @@ st.markdown("""
 
 
 def display_card(output):
+    output = display_lesson_names(output)
     for line in output.splitlines():
         line = line.strip()
         if not line:

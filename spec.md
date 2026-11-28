@@ -161,6 +161,8 @@ flowchart TD
 | 28/11 | Chuyển giao diện sang Streamlit | Dùng trình duyệt cho video demo theo yêu cầu nhóm |
 | 28/11 09:28 | Bỏ nút câu hỏi mẫu; dùng màu theo giao diện sáng/tối của Streamlit và chừa khoảng trên thanh công cụ | Sửa giao diện theo góp ý khi dùng chế độ tối và tránh nội dung bị che |
 | 28/11 09:43 | Thêm link video demo CP4 vào README | Bổ sung video dự phòng cho CP4 |
+| 28/11 10:01 | Hiển thị tên bài từ `data/lesson_mapping.csv` trên giao diện, giữ mã khi chưa có ánh xạ | Giúp giảng viên đọc thẻ; không thay đổi mã dùng để đánh giá |
+| 28/11 10:06 | Hiển thị nội dung khớp `ref` từ `question_bank.csv`, ghi rõ khi là câu ví dụ synthetic | Dễ đọc câu ôn mà không nhầm câu tự soạn với đề gốc |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
