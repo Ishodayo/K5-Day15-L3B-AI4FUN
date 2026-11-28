@@ -10,7 +10,7 @@
 | 3 | Giải pháp | Lát cắt một câu · sơ đồ · AI tự làm đến đâu, vì sao | `spec.md` §4 | ☑ |
 | 4 | Demo live | 1 trường hợp thường + 1 trường hợp khó (lấy từ bộ câu thử); mạng hỏng → video dự phòng | `eval/benchmark.csv` | ☑ |
 | 5 | **Đánh giá thế nào** | Dataset · bộ câu thử · metric · lượt 1 → lượt 2 so với chuẩn "đạt" (kèm run ID) · lỗi chính | `eval/README.md`, `eval/report.md` | ☑ |
-| 6 | **Chi phí khi dùng thật** | Chi phí / task thành công · 3 kịch bản · so với impact | `cost/cost-estimate.md` | ☑ |
+| 6 | **Chi phí khi dùng thật** | Chi phí / task thành công · 3 kịch bản · so với impact. **Số (Trà, model chính `gpt-5.4-nano`, mô phỏng `cost/simulate-1.csv` 50 phiên):** $0.0020 / task thành công (đã chia tỉ lệ đạt lượt 2 = 15/24) · / tháng: thấp $0.08 (3 người) · **cơ sở $0.14 (5 người)** · cao $0.27 (10 người) · $0.027 / người / tháng so với ≈ 6,25 giờ giảng viên tiết kiệm / người / tháng → **đáng làm về chi phí, điểm nghẽn là chất lượng** (lượt 2 `thuong` 0/8) · model mạnh hơn: `gpt-5.4-mini` $0.0075 / task · `gpt-5.4` $0.025 / task | `cost/cost-estimate.md` §2–§3, `spec.md` §8 | ☑ |
 | 7 | Kết luận | Go / iterate / stop — dẫn số ở trang 1, 5, 6 | — | ☑ |
 | 8 | Nếu có thêm 1 tuần | 2–3 việc, trỏ về lỗi còn lại / phản hồi người dùng | `eval/report.md` mục 4 · `validation/log.md` | ☑ |
 
