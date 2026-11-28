@@ -129,7 +129,7 @@ flowchart TD
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 24 câu (thuong 8 · kho 11 · tu_choi 5 · nguồn người dùng / data thật: 18/24) · metric: `eval/metric_spec.yaml` (4 metric)
 - **Chuẩn "đạt"** — **ĐÃ CHỐT tại CP2 27/11/2026, cả nhóm đồng ý, giữ nguyên đến 23:59 Thứ Bảy 28/11:** "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu có số liệu hoặc mã câu không có trong data (metric `so_lieu_co_nguon`)"
-- Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: lượt 1 **20/24 (83%)** — thuong 5/8 · kho 10/11 · tu_choi 5/5 · 0 câu có số / mã lạ → **đạt chuẩn** · lượt 2 __/__ (__%) — run ID: `run-1@20261128-081440` (model `gpt-5.4-nano`) / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
