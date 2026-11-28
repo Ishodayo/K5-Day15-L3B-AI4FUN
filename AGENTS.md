@@ -40,6 +40,6 @@ Khung chỉ dùng thư viện chuẩn của Python. Thêm thư viện thì ghi v
 
 ## Quy ước của nhóm
 
-- Ngôn ngữ trả lời người dùng: __
-- Phong cách code / đặt tên: __
-- Ai duyệt thay đổi do agent tạo trước khi commit: __
+- Ngôn ngữ trả lời người dùng: tiếng Việt
+- Phong cách code / đặt tên: Python thư viện chuẩn, tên hàm và biến tiếng Việt không dấu (`lay_tin_hieu_ngay`, `danh_gia_cau`); mọi số do code tính, AI không tự đếm
+- Ai duyệt thay đổi do agent tạo trước khi commit: người có tên ở phần đó tự đọc diff; mọi thay đổi vào `main` qua PR, đội trưởng (Nam) gộp
