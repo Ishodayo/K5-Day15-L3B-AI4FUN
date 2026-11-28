@@ -1,0 +1,14 @@
+lesson_id,btc_day,preclass_day,preclass_title
+program-day01:ai-llm-foundation,D01,D01,AI & LLM Foundation
+program-day02:ai-problem-definition,D02,D02,Xác định bài toán cho AI
+program-day03:chatbot-to-agentic-agent,D03,D04,Từ chatbot đến agentic agent
+program-day04:prompt-engineering-tool-calling,D04,D03,Prompt Engineering & Tool Calling
+program-day05:ai-product-thinking-and-requirement,D05,D05,AI Requirements & UX
+program-day06:data-engineering-for-agents,D06,D06,Data Engineering cho Agent
+program-day07:retrieval-context-engineering,D07,D07,Retrieval & Context Engineering
+program-day08:from-workflows-to-agents,D08,D08,Từ Workflow đến Agent
+program-day09:evaluation-failure-analysis,D09,D09,Đánh giá và phân tích lỗi
+program-day10:poc-to-pilot,D10,D10,Từ PoC đến Pilot
+program-day11:guardrails-hitl-responsible-ai,D11,D11,"Guardrails, HITL & Responsible AI"
+program-day12:ai-sdlc-coding-agent,D12,D12,AI SDLC & Coding Agent
+program-day13:launch-economics,D13,D13,Launch & Economics
