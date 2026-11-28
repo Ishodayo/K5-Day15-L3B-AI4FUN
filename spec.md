@@ -132,10 +132,10 @@ flowchart TD
 - Kết quả: lượt 1 **20/24 (83%)** — thuong 5/8 · kho 10/11 · tu_choi 5/5 · 0 câu có số / mã lạ → **đạt chuẩn** · lượt 2 **15/24 (62%)** — thuong 0/8 · kho 10/11 · tu_choi 5/5 · 0 câu có số / mã lạ → **chưa đạt chuẩn** *(do `_loc_synthetic` bắt cứng ngoặc vuông `[mã_thẻ]` làm bỏ phần D)* — run ID: `run-1@20261128-081440` (model `gpt-5.4-nano`) / `run-2@20261128-101829` (model `gpt-5.4-nano`) → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- Persona + giá: `cost/personas.yaml` (3 persona theo §2; 3 kịch bản 3 / 5 / 10 người dùng theo số lớp trong TKB) · lượt mô phỏng: `cost/simulate-1.csv` (50 phiên, seed 42, run ID `simulate-1@20261128-113444`, model thật `gpt-5.4-nano`, 0 phiên lỗi) · tỉ lệ đạt dùng để tính: lượt 2 **15/24 (62%)**
+- Chi phí / task thành công: **$0.0020 (model `gpt-5.4-nano` — model chính)** · $0.0075 (model `gpt-5.4-mini`) · $0.0249 (model `gpt-5.4`) — token đo trên nano, đã chia cho tỉ lệ đạt lượt 2
+- Chi phí / tháng ở quy mô thật (`gpt-5.4-nano`): thấp $0.0822 (3 người) · **cơ sở $0.1370 (5 người)** · cao $0.2740 (10 người) → chi tiết `cost/cost-estimate.md`
+- So với impact / người / tháng (§2): **đáng làm** — ≈ $0.0274 / người / tháng (nano; $0.3336 nếu dùng `gpt-5.4`) so với ≈ 6,25 giờ giảng viên tiết kiệm / người / tháng (25 giờ ÷ 4 giảng viên). Chi phí model không phải điểm nghẽn; điều kiện để dùng thật là **chất lượng** — lượt 2 chỉ 15/24, nhóm `thuong` 0/8, phải sửa `_loc_synthetic` trước. Lưu ý: OpenAI ghi `gpt-5.4-nano` là Deprecated → phương án thay `gpt-5.4-mini` ≈ 3,6× chi phí, cơ sở $0.5003 / tháng.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:
@@ -163,6 +163,7 @@ flowchart TD
 | 28/11 09:43 | Thêm link video demo CP4 vào README | Bổ sung video dự phòng cho CP4 |
 | 28/11 10:01 | Hiển thị tên bài từ `data/lesson_mapping.csv` trên giao diện, giữ mã khi chưa có ánh xạ | Giúp giảng viên đọc thẻ; không thay đổi mã dùng để đánh giá |
 | 28/11 10:06 | Hiển thị nội dung khớp `ref` từ `question_bank.csv`, ghi rõ khi là câu ví dụ synthetic | Dễ đọc câu ôn mà không nhầm câu tự soạn với đề gốc |
+| 28/11 11:34 | Thêm `cost/personas.yaml` (3 persona, 3 kịch bản 3 / 5 / 10 người, giá 3 model), chạy `simulate --rate-from eval/run-2.csv` → `cost/simulate-1.csv`; điền `cost/cost-estimate.md` và §8; chốt `gpt-5.4-nano` là model chính | CP4 chi phí khi dùng thật (Trà); tỉ lệ đạt lấy đúng lượt 2 (15/24) theo phân công, không lấy lượt 1 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

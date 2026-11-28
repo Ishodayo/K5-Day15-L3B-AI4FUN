@@ -1,51 +1,61 @@
-# Mô phỏng chi phí khi dùng thật — điền ở guide bước 4.2.
-# Ôn lại: ngày 13, ngày 1, ngày 14 · lab ngày 13, lab ngày 14.
-# Mọi số phải có nguồn (data / phỏng vấn / khảo sát / quy mô khoá có nguồn) hoặc ghi rõ "(tự ước tính)".
-# Chạy: python run.py simulate --try   (10 phiên, kiểm khung — làm trước CP3)
-#       python run.py simulate         (đủ số phiên dưới đây — bản nộp CP4)
-# Thay mọi dòng "(ví dụ)" bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
+# Mô phỏng chi phí khi dùng thật — Class Pulse · AI4FUN (guide bước 4.2).
+# Mọi số có nguồn hoặc ghi rõ "(tự ước tính)". Persona lấy từ spec.md §2 "Số lần / tháng của từng kiểu người dùng".
+# TKB = thời khoá biểu AI20K Khoá V do BTC phát (Phase 1, 05/11–28/11/2026, xem 27/11/2026):
+#       4 lớp L3A 360 · L3B 361 · L2A 220 · L2B 142 học viên (1.083); mỗi lớp 15 buổi lý thuyết + 14 buổi LAB.
+# Chạy: python run.py simulate --try                        (10 phiên, kiểm khung)
+#       python run.py simulate --rate-from eval/run-2.csv   (bản nộp CP4, tỉ lệ đạt lượt 2)
 
 sessions: 50        # số phiên mô phỏng — bản nộp ≥50
 seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phiên
 
-users:              # số người dùng thật nếu đưa vào dùng — 3 kịch bản, ở quy mô thật của sản phẩm
-                    # track A: khoá học · track B–F: người dùng của sản phẩm / nhóm nhắm tới, nguồn công khai có link
-  low: 300
-  base: 700
-  high: 1000
-  source: "(ví dụ) track A — thay bằng số của nhóm. Cơ sở: lớp L3 hơn 700 học viên (README hackathon); thấp, cao: (tự ước tính)"
+users:              # người dùng của sản phẩm = giảng viên phụ trách buổi lý thuyết + người phụ trách học thuật
+  low: 3            # chỉ 2 lớp L3 (L3A, L3B) dùng: 2 giảng viên + 1 người phụ trách
+  base: 5           # cả 4 lớp Khoá V: 4 giảng viên + 1 người phụ trách
+  high: 10          # 2 khoá chạy song song (8 lớp): 8 giảng viên + 2 người phụ trách
+  source: "Số lớp: TKB (2 lớp L3, 4 lớp Khoá V). 1 giảng viên / lớp và 1 người phụ trách / 4 lớp: (tự ước tính) — TKB không ghi tên giảng viên. Kịch bản cao 2 khoá song song: (tự ước tính)"
 
-personas:           # ≥3 kiểu người dùng; share cộng lại = 1
-  - name: dung_it
-    share: 0.5              # tỉ lệ người dùng kiểu này
-    uses_per_month: 4       # số phiên / người / tháng
-    turns_per_session: 1    # số lượt hỏi trong một phiên
-    source: "(ví dụ) phỏng vấn P1, P3 — thay bằng nguồn của nhóm"
-  - name: dung_vua
-    share: 0.3
-    uses_per_month: 10
+personas:           # ≥3 kiểu người dùng; share cộng lại = 1 (ở kịch bản cơ sở: 2 + 2 + 1 = 5 người)
+  - name: gv_chi_doc_the
+    share: 0.4              # giảng viên chỉ đọc thẻ tự động 21:00, không hỏi thêm
+    uses_per_month: 15      # 1 thẻ / buổi lý thuyết
+    turns_per_session: 1
+    source: "15 buổi lý thuyết / lớp / Phase 1 (~1 tháng): TKB · 1 lượt / phiên và tỉ lệ 2/5 người: (tự ước tính) · spec.md §2"
+    inputs:                 # thẻ 21:00 = yêu cầu theo ngày học; lấy nguyên câu theo ngày trong eval/benchmark.csv
+      - "Ngày 1: lớp đang vướng ý nào, gợi ý tôi điều chỉnh bài giảng"
+      - "Ngày 3 lớp hiểu sai gì nhiều nhất?"
+      - "Ngày 4, phần nào cần giảng lại?"
+      - "Ngày 2 có bài thực hành nào học viên bỏ ngang không?"
+      - "Ngày 5 lớp đang vướng gì?"
+      - "Ngày 9 cần ôn câu nào?"
+      - "Ngày 6 tôi nên ôn gì đầu buổi?"
+      - "Ngày 7 học viên đang vướng câu ôn và phần bài nào?"
+      - "Ngày 8 lớp có điểm nghẽn nào cần ưu tiên ôn đầu buổi?"
+  - name: gv_hoi_tiep
+    share: 0.4              # giảng viên đọc thẻ rồi hỏi tiếp theo mã câu (chi tiết câu, sai do đề hay do hiểu, quiz nháp)
+    uses_per_month: 15
     turns_per_session: 3
-    source: "(ví dụ) khảo sát n = 24, câu 3"
-  - name: dung_nhieu
-    share: 0.2
-    uses_per_month: 20
-    turns_per_session: 5
-    source: "(ví dụ) data/preclass: đếm số lượt / người — cách đếm ở evidence/data-mining.md"
-# Mỗi lượt hỏi lấy ngẫu nhiên một đầu vào trong eval/benchmark.csv (type thuong và kho).
-# Persona hỏi kiểu riêng: thêm vào persona đó
-#     types: [thuong, kho, tu_choi]
-# hoặc
-#     inputs: ["câu hỏi kiểu 1", "câu hỏi kiểu 2"]
+    source: "15 buổi lý thuyết / lớp: TKB · ~3 lượt / phiên và tỉ lệ 2/5 người: (tự ước tính) · spec.md §2"
+    types: [thuong, kho]    # lấy ngẫu nhiên câu thuong + kho trong eval/benchmark.csv (gồm câu theo ngày và theo mã câu)
+  - name: phu_trach_nhieu_lop
+    share: 0.2              # người phụ trách học thuật xem thẻ của nhiều lớp (vai của P1)
+    uses_per_month: 60      # 4 lớp × 15 buổi lý thuyết
+    turns_per_session: 2
+    source: "4 lớp × 15 buổi lý thuyết = 60 thẻ / tháng: TKB · vai: phỏng vấn P1 · ~2 lượt / phiên và 1 người / 4 lớp: (tự ước tính) · spec.md §2"
+    types: [thuong, kho]
 
-prices:             # USD / 1 triệu token — chép từ further-reading/model-prices.md của repo đề. ≥2 mức model
-  - model: gemini-3.1-flash-lite
-    input: 0.25
-    output: 1.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
-  - model: gemini-4-hydrogen
-    input: 1.50
-    output: 7.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
+prices:             # USD / 1 triệu token, bảng Standard. ≥2 mức model
+  - model: gpt-5.4-nano     # model đang dùng để build và chạy eval (eval/run-1.csv)
+    input: 0.20
+    output: 1.25
+    source: "https://developers.openai.com/api/docs/pricing (bảng Standard) + https://developers.openai.com/api/docs/models/gpt-5.4-nano · xem 28/11/2026 · trang model ghi trạng thái Deprecated"
+  - model: gpt-5.4-mini     # mức mạnh hơn kế tiếp
+    input: 0.75
+    output: 4.50
+    source: "https://developers.openai.com/api/docs/pricing (bảng Standard) + https://developers.openai.com/api/docs/models/gpt-5.4-mini · xem 28/11/2026"
+  - model: gpt-5.4          # mức mạnh nhất cùng dòng (ngữ cảnh < 272K token)
+    input: 2.50
+    output: 15.00
+    source: "https://developers.openai.com/api/docs/pricing (bảng Standard, < 272K context) + https://developers.openai.com/api/docs/models/gpt-5.4 · xem 28/11/2026"
 
 usd_to_vnd:         # tuỳ chọn: điền thì bản tóm tắt in thêm tiền Việt
   rate:
