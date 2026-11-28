@@ -6,9 +6,16 @@
 
 ## 1. Đầu vào
 
-- **Persona** (`cost/personas.yaml`): ≥3 kiểu — tỉ lệ, số phiên / người / tháng, số lượt hỏi / phiên. Nguồn: __
-- **Số người dùng thật** 3 kịch bản: thấp __ · cơ sở __ · cao __. Nguồn: __
-- **Giá** ≥2 mức model (từ `further-reading/model-prices.md` của repo đề, có link + ngày xem): __ · __
+- **Persona** (`cost/personas.yaml`): 3 kiểu, lấy từ `spec.md` §2. Nguồn: số buổi lấy từ TKB (thời khoá biểu AI20K Khoá V do BTC phát, Phase 1 05/11–28/11/2026: mỗi lớp 15 buổi lý thuyết); vai người phụ trách nhiều lớp từ phỏng vấn P1; số lượt / phiên và tỉ lệ *(tự ước tính)*.
+
+  | Persona | Tỉ lệ | Phiên / người / tháng | Lượt hỏi / phiên | Hỏi gì |
+  |---|---|---|---|---|
+  | `gv_chi_doc_the` — giảng viên chỉ đọc thẻ tự động 21:00 | 0,4 | 15 (1 / buổi lý thuyết — TKB) | 1 | câu theo ngày học trong `eval/benchmark.csv` |
+  | `gv_hoi_tiep` — giảng viên hỏi tiếp theo mã câu | 0,4 | 15 (TKB) | 3 *(tự ước tính)* | ngẫu nhiên câu `thuong` + `kho` |
+  | `phu_trach_nhieu_lop` — người phụ trách học thuật (vai P1) | 0,2 | 60 (4 lớp × 15 buổi — TKB) | 2 *(tự ước tính)* | ngẫu nhiên câu `thuong` + `kho` |
+
+- **Số người dùng thật** 3 kịch bản (người dùng = giảng viên phụ trách buổi lý thuyết + người phụ trách học thuật): thấp **3** (chỉ 2 lớp L3) · cơ sở **5** (4 lớp Khoá V: 4 giảng viên + 1 người phụ trách) · cao **10** (2 khoá song song, 8 lớp). Nguồn: số lớp từ TKB; 1 giảng viên / lớp, 1 người phụ trách / 4 lớp và kịch bản 2 khoá song song *(tự ước tính — TKB không ghi tên giảng viên)*.
+- **Giá** 3 mức model, USD / 1 triệu token (vào · ra), bảng Standard ở https://developers.openai.com/api/docs/pricing, xem 28/11/2026: `gpt-5.4-nano` 0,20 · 1,25 · `gpt-5.4-mini` 0,75 · 4,50 · `gpt-5.4` 2,50 · 15,00. *(Lấy thẳng từ trang giá của OpenAI vì máy không có `further-reading/model-prices.md` của repo đề — cần đối chiếu nếu file đó có giá khác.)*
 - **Tỉ lệ đạt** dùng để tính: __/__ (__%) — lượt `run-__` (lượt 2)
 - Đo token trên model __, tính giá model __ và __
 
