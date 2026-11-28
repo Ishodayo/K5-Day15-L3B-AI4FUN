@@ -26,9 +26,9 @@ và đoạn bài nếu có. Với MỖI thẻ, viết đúng 3 dòng:
 Luật: KHÔNG viết thêm con số nào ngoài số đã có trong thẻ. KHÔNG nhắc mã thẻ / mã câu không có trong danh sách.
 Để tránh sai số, không nhắc lại tỉ lệ, phân số hay số đếm; chỉ giữ nguyên mã thẻ ở đầu mỗi phần.
 Đề trong dữ liệu có thể được tự soạn để thử luồng, không coi là bằng chứng về đề gốc.
-Nếu nguồn đề ghi synthetic, đề và đáp án chỉ là ví dụ tự soạn: không suy đoán đáp án sai thực tế
+Nếu nguồn đề ghi synthetic, bắt buộc ghi "Loại: cần xem thêm"; dòng Vì sao chỉ nói đề gốc chưa có và câu hỏi ví dụ nói về nội dung gì, tuyệt đối không nói học viên hiểu, nhầm, đang nghĩ hay có xu hướng gì. Đề và đáp án chỉ là ví dụ tự soạn: không suy đoán đáp án sai thực tế
 tương ứng nội dung nào trong ví dụ, không nhận định đề gốc gây nhầm, và không kết luận người học hiểu sai gì.
-Chỉ đề xuất giảng viên kiểm tra đề gốc và dùng câu hỏi ví dụ để gợi ý ôn tập.
+Dùng câu hỏi ví dụ để soạn quiz ôn nháp và gợi ý giảng lại cụ thể; ghi rõ đó là ví dụ. Trong dòng Gợi ý không nhắc học viên, người học, cả lớp, đề gốc hay nguyên nhân; code sẽ nhắc giảng viên kiểm tra đề gốc. Không đoán ý nghĩa từ mã câu không dấu.
 Nếu thẻ câu ôn ghi "chưa có đề", bắt buộc ghi "Loại: cần xem thêm", không tự tạo quiz
 hoặc khẳng định nguyên nhân. Các tín hiệu chỉ cho biết nơi cần xem thêm,
 không chứng minh nguyên nhân; nêu khả năng thay vì kết luận chắc chắn.
@@ -59,9 +59,11 @@ def _doc_yeu_cau(text):
 
 
 def _the_cau(c):
-    s = "%s · KC %s · sai lần đầu %d/%d (%.0f%%)" % (c["ref"], c["kc_code"], c["sai"], c["n"], 100 * c["ti_le"])
+    s = "%s · sai lần đầu %d/%d (%.0f%%)" % (c["ref"], c["sai"], c["n"], 100 * c["ti_le"])
     if c["co_da"]:
         s += " · đáp án sai chọn nhiều nhất: %s (%d/%d lượt sai)" % (c["dap_an"], c["don"], c["co_da"])
+    if c["co_da"] and c["don"] / c["co_da"] >= 0.5:
+        s += " · Có khả năng câu hỏi gây nhầm; giảng viên cần xem đề gốc trước khi kết luận."
     return s
 
 
@@ -69,6 +71,8 @@ def _kiem_dau_ra_ai(text, refs, so_cho_phep):
     """Chỗ chặn rủi ro: trả lý do trượt (str) hoặc "" nếu qua."""
     if re.search(r"\bL\d{4}\b", text):
         return "có mã học viên"
+    if re.search(r"\bKC\s+\S+", text, re.I):
+        return "có mã KC thô"
     la = set(re.findall(r"\bd\d{2}-on-[a-z0-9-]+", text)) - set(refs)
     if la:
         return "nhắc mã câu không có trong thẻ: %s" % ", ".join(sorted(la))
@@ -78,20 +82,44 @@ def _kiem_dau_ra_ai(text, refs, so_cho_phep):
     return ""
 
 
+def _loc_synthetic(text, refs):
+    """Chỉ giữ gợi ý ví dụ; nhãn và giới hạn do code viết, không tin nhãn AI."""
+    for ref in refs:
+        pattern = r"(?ms)^\[" + re.escape(ref) + r"\][^\n]*(?:\n(?!\[)[^\n]*)*"
+        matches = list(re.finditer(pattern, text))
+        if len(matches) != 1:
+            return "", "không nhận diện được phần gợi ý ví dụ"
+        block = matches[0].group()
+        suggestion = re.search(r"(?is)(?:^|\n)Gợi ý:\s*(.*)", block)
+        if not suggestion:
+            return "", "thiếu gợi ý ví dụ"
+        content = suggestion.group(1).strip()
+        # Fail closed với các cách thường gặp để suy đoán từ ví dụ. Đây không
+        # phải bộ kiểm chứng ngữ nghĩa đầy đủ; giảng viên vẫn phải duyệt.
+        if re.search(r"học viên|người học|cả lớp|đề gốc|đáp án gốc|nguyên nhân|\bKC\b", content, re.I):
+            return "", "gợi ý ví dụ có nhận định cần người kiểm tra"
+        replacement = ("[%s] Loại: cần xem thêm\n"
+                       "Vì sao: chưa có đề gốc; nội dung dưới đây chỉ dựa trên câu hỏi ví dụ.\n"
+                       "Gợi ý: %s") % (ref, content)
+        text = text[:matches[0].start()] + replacement + text[matches[0].end():]
+    return text, ""
+
+
 def _dien_giai(the_cau, the_module):
     """Bước AI duy nhất. Trả (đoạn chữ, ghi chú kiểm)."""
     if not the_cau and not the_module:
         return "", ""
     goi = []
-    co_de_synthetic = False
+    refs_synthetic = []
     for c in the_cau:
         de = lay_de_cau_hoi(c["ref"])
         # Đề tự soạn không thể giải thích lựa chọn của học viên ở đề gốc.
         if "synthetic" in de.get("nguon", "").lower():
-            co_de_synthetic = True
-            de = {}
-        goi.append({"ma_the": c["ref"], "so_lieu": _the_cau(c), "nhan_code": c["nhan"],
-                    "de": de.get("de") or "chưa có đề", "cac_dap_an": de.get("cac_dap_an", ""),
+            refs_synthetic.append(c["ref"])
+        synthetic = c["ref"] in refs_synthetic
+        goi.append({"ma_the": c["ref"], "so_lieu": "không dùng số liệu để suy đoán" if synthetic else _the_cau(c), "nhan_code": "cần xem thêm" if synthetic else c["nhan"],
+                    "câu hỏi ví dụ": de.get("de", "") if "synthetic" in de.get("nguon", "").lower() else "",
+                    "de": ("đề ví dụ tự soạn, không phải đề gốc" if "synthetic" in de.get("nguon", "").lower() else de.get("de") or "chưa có đề"), "cac_dap_an": de.get("cac_dap_an", ""),
                     "dap_an_dung": de.get("dap_an_dung", ""), "doan_bai": de.get("doan_bai", ""),
                     "nguon_de": de.get("nguon", "")})
     for mod, co in the_module:
@@ -100,10 +128,12 @@ def _dien_giai(the_cau, the_module):
     text = reply["text"].strip()
     so_cho_phep = set(re.findall(r"\b\d+/\d+\b|\b\d+(?:[.,]\d+)?%", json.dumps(goi, ensure_ascii=False)))
     loi = _kiem_dau_ra_ai(text, [c["ref"] for c in the_cau], so_cho_phep)
+    if not loi and refs_synthetic:
+        text, loi = _loc_synthetic(text, refs_synthetic)
     if loi:
         note("chặn đầu ra AI: " + loi)
         return "", "(Đã bỏ phần diễn giải của AI vì %s — chỉ giữ số liệu do code tính.)" % loi
-    if co_de_synthetic:
+    if refs_synthetic:
         text = ("Lưu ý: đề gốc không có; đề tự soạn không được dùng để diễn giải "
                 "nguyên nhân sai hoặc chất lượng đề. Giảng viên cần xem đề gốc.\n" + text)
     return text, ""

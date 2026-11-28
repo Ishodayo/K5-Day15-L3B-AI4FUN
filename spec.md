@@ -95,7 +95,7 @@ flowchart TD
   | G8/G9 — dễ bỏ qua, dễ sửa | Thẻ ghi rõ BẢN NHÁP; giảng viên chọn 1–3 thẻ, bỏ phần còn lại |
   | G2 — nói rõ làm tốt đến đâu | Dòng "Giới hạn" cuối thẻ: số toàn khoá, data không nói vì sao |
 
-- Phần nào còn giả: **lượt tự động 21:00 và các việc tiếp theo (chi tiết câu, quiz) chưa code**; bản chạy thử hiển thị thẻ qua giao diện Streamlit, không tự gửi hay ghi thẻ ra file. Đã nối model thật qua cấu hình `.env`; nếu chưa cấu hình hoặc chọn `MODEL_PROVIDER=fake`, mục D vẫn là câu giả. Số liệu trong `data/review_stats.csv`, `data/struggle_by_module.csv` là **thật** (tổng hợp từ data BTC). **`data/question_bank.csv` (19 câu) là đề tự soạn bằng AI theo `ref` / `kc_code`, nhãn `synthetic`** — pre-class không còn bản gốc; đề này không được đưa vào bước AI diễn giải tín hiệu của câu thật, không dùng để kết luận nguyên nhân sai hay chất lượng đề gốc.
+- Phần nào còn giả: **lượt tự động 21:00 và các việc tiếp theo (chi tiết câu, quiz) chưa code**; bản chạy thử hiển thị thẻ qua giao diện Streamlit, không tự gửi hay ghi thẻ ra file. Đã nối model thật qua cấu hình `.env`; nếu chưa cấu hình hoặc chọn `MODEL_PROVIDER=fake`, mục D vẫn là câu giả. Số liệu trong `data/review_stats.csv`, `data/struggle_by_module.csv` là **thật** (tổng hợp từ data BTC). **`data/question_bank.csv` (19 câu) là đề tự soạn bằng AI theo `ref` / `kc_code`, nhãn `synthetic`** — pre-class không còn bản gốc; đề này được đưa vào AI dưới nhãn câu hỏi ví dụ để soạn quiz ôn và gợi ý giảng lại; không gửi kèm số liệu của câu thật, không dùng để kết luận nguyên nhân sai hay chất lượng đề gốc. Code thay nhãn và căn cứ của phần ví dụ bằng nội dung cố định, lọc một số dạng suy đoán và bỏ phần AI nếu không kiểm được; bộ lọc không bảo đảm phát hiện mọi suy luận, giảng viên vẫn phải duyệt.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -157,7 +157,10 @@ flowchart TD
 | 27/11 tối | §0, §1, §3, §6 điền; §5 thêm 5 kịch bản (B19–B24); §4 ghi question bank là `synthetic`; TEAMS.md cập nhật phần việc theo phân công CP3 | Hoàn thiện spec §0–§7 cho CP3 |
 | 28/11 | Nối API model thật, cập nhật prompt và §4; không dùng đề synthetic để giải thích tín hiệu của đề gốc | Phần việc CP3 của Duy; tránh suy đoán nguyên nhân từ đề tự soạn |
 | 28/11 | Thêm giao diện desktop cho bản chạy thử; thử lại có giới hạn khi Gemini báo 429/503 | Giúp trình bày video và xử lý giới hạn lượt gọi tạm thời |
+| 28/11 09:15 | Dùng đề synthetic làm câu hỏi ví dụ để gợi ý giảng lại và quiz; không gửi số thật kèm ví dụ, lọc đầu ra, nêu khả năng gây nhầm khi sai dồn, ẩn mã KC | Khắc phục B02, B05, B17, B18; hạn chế suy luận nguyên nhân từ đề tự soạn |
 | 28/11 | Chuyển giao diện sang Streamlit | Dùng trình duyệt cho video demo theo yêu cầu nhóm |
+| 28/11 09:28 | Bỏ nút câu hỏi mẫu; dùng màu theo giao diện sáng/tối của Streamlit và chừa khoảng trên thanh công cụ | Sửa giao diện theo góp ý khi dùng chế độ tối và tránh nội dung bị che |
+| 28/11 09:43 | Thêm link video demo CP4 vào README | Bổ sung video dự phòng cho CP4 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
