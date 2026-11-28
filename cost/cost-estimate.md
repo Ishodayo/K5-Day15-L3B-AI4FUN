@@ -17,7 +17,7 @@
 - **Số người dùng thật** 3 kịch bản (người dùng = giảng viên phụ trách buổi lý thuyết + người phụ trách học thuật): thấp **3** (chỉ 2 lớp L3) · cơ sở **5** (4 lớp Khoá V: 4 giảng viên + 1 người phụ trách) · cao **10** (2 khoá song song, 8 lớp). Nguồn: số lớp từ TKB; 1 giảng viên / lớp, 1 người phụ trách / 4 lớp và kịch bản 2 khoá song song *(tự ước tính — TKB không ghi tên giảng viên)*.
 - **Giá** 3 mức model, USD / 1 triệu token (vào · ra), bảng Standard ở https://developers.openai.com/api/docs/pricing, xem 28/11/2026: `gpt-5.4-nano` 0,20 · 1,25 · `gpt-5.4-mini` 0,75 · 4,50 · `gpt-5.4` 2,50 · 15,00. *(Lấy thẳng từ trang giá của OpenAI vì máy không có `further-reading/model-prices.md` của repo đề — cần đối chiếu nếu file đó có giá khác.)*
 - **Tỉ lệ đạt** dùng để tính: __/__ (__%) — lượt `run-__` (lượt 2)
-- Đo token trên model __, tính giá model __ và __
+- Đo token trên model **`gpt-5.4-nano`** (model nhóm dùng để build và chạy eval), tính giá **`gpt-5.4-nano`** (model chính — số báo cáo ở slide và `spec.md` §8) và `gpt-5.4-mini`, `gpt-5.4` (để so mức mạnh hơn). Hai model sau dùng chung số token đo trên nano.
 
 ## 2. Kết quả mô phỏng
 
