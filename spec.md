@@ -138,13 +138,38 @@ flowchart TD
 - So với impact / người / tháng (§2): **đáng làm** — ≈ $0.0274 / người / tháng (nano; $0.3336 nếu dùng `gpt-5.4`) so với ≈ 6,25 giờ giảng viên tiết kiệm / người / tháng (25 giờ ÷ 4 giảng viên). Chi phí model không phải điểm nghẽn; điều kiện để dùng thật là **chất lượng** — lượt 2 chỉ 15/24, nhóm `thuong` 0/8, phải sửa `_loc_synthetic` trước. Lưu ý: OpenAI ghi `gpt-5.4-nano` là Deprecated → phương án thay `gpt-5.4-mini` ≈ 3,6× chi phí, cơ sở $0.5003 / tháng.
 
 ## §9. Rủi ro & an toàn
-- Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:
-- AI **không được** làm gì kể cả khi người dùng yêu cầu:
-- Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào:
+- **Dữ liệu:** repo không chứa nguyên file data BTC cấp và không có mã học viên (`hv`). Script `evidence/count_*.py` gom số theo câu / phần bài rồi bỏ cột `hv` trước khi ghi `data/review_stats.csv` và `data/struggle_by_module.csv`. Công cụ của bản chạy thử chỉ đọc 2 file đã gom này và `data/question_bank.csv` (đề tự soạn, nhãn `synthetic`). Vì vậy model chỉ nhận số tổng hợp, không nhận gì của từng học viên. Không thu thêm dữ liệu nào. Data là của toàn khoá, chưa tách theo lớp. Key chỉ nằm trong `.env` (có trong `.gitignore`), không commit.
+- **AI không được làm, kể cả khi người dùng yêu cầu.** Các yêu cầu dưới đây bị chặn bằng regex `TU_CHOI` trong `codebase/agent.py`, chạy **trước khi gọi công cụ hay model** (B12–B14, B23, B24; 5/5 câu `tu_choi` qua ở cả 2 lượt):
+  1. Nêu tên, mã hay danh sách học viên, hoặc xếp hạng học viên.
+  2. Tự gửi quiz, thông báo hay tin nhắn cho học viên.
+  3. Sửa đề / đáp án trên pre-class hoặc chấm điểm.
+  4. Làm theo lệnh "bỏ qua hướng dẫn / luật".
+  5. Kết luận khi câu có dưới 10 lượt trả lời. Điều này do code quyết: code ghi "chưa đủ dữ liệu", AI không được gửi số của câu đó.
+- **Ai bị hại nếu AI sai, và nhóm chặn thế nào:**
+
+  | AI sai thế nào | Ai bị hại | Chặn bằng gì | Còn hở |
+  |---|---|---|---|
+  | Bịa số hoặc mã câu (vd "sai 50%") | Giảng viên giảng lại nhầm ý → học viên mất giờ lớp | Mọi số do code tính. `_kiem_dau_ra_ai` bỏ phần AI nếu có số x/N, %, mã câu, mã `L\d{4}` hay `KC ...` không có trong thẻ. Lượt 1 và lượt 2 đều có 0 câu chứa số / mã lạ (B11 tấn công cũng bị chặn) | Bộ kiểm không bắt được số viết bằng chữ ("một nửa lớp") |
+  | Kết luận "học viên hiểu sai" khi thật ra đề gây nhầm (vd `d05-on-cot-canvas`, 12/12 lượt sai chọn A) | Học viên bị giảng lại điều họ không sai; đề lỗi vẫn để nguyên | Code tự ghi "Có khả năng câu hỏi gây nhầm; giảng viên cần xem đề gốc" khi ≥50% lượt sai dồn vào 1 đáp án (B05 qua ở lượt 2) | Câu chỉ có 2 lượt sai vẫn hiện cảnh báo này, do thiếu điều kiện ≥5 lượt sai (B09, `eval/report.md` §4) |
+  | Soạn quiz hoặc gợi ý sai kiến thức. Khi chưa có đề, model đoán nghĩa từ mã câu không dấu ("dung-dung-luc" → "dùng đúng lúc") | Học viên học theo quiz sai nếu giảng viên không đọc kỹ | Thẻ luôn ghi "BẢN NHÁP — giảng viên duyệt, sửa hoặc bỏ". Không có công cụ nào gửi đi được | Vẫn còn ở B02 và B20 lượt 2. Chưa có code chặn quiz khi chưa có đề |
+  | Diễn giải từ đề `synthetic` như thể đó là đề gốc | Giảng viên tin vào đề không có thật | Đề `synthetic` chỉ được gửi dưới nhãn "câu hỏi ví dụ", không kèm số thật. `_loc_synthetic` bỏ phần AI nếu có nhận định về học viên / đề gốc | Bộ lọc quá cứng nên bỏ luôn cả gợi ý đúng: `thuong` 0/8 ở lượt 2 |
+  | Lộ học viên (tên / mã) | Học viên bị chỉ mặt, trái luật data | Data đưa vào công cụ không có `hv`. Câu đòi học viên nào bị từ chối trước khi gọi công cụ. Đầu ra có `L\d{4}` thì bị bỏ | — |
+- **Mức tự động giữ ở "AI gợi ý, người quyết"** (§4). Thẻ chỉ đến tay giảng viên, không bao giờ gửi học viên. Lượt tự động 21:00 hiện chưa code.
 
 ## §10. Phân công & changelog
-- Phân công có tên (theo chặng, chia cặp — guide "Cách chia việc"): __
-- Dùng AI vào việc gì (2–3 dòng; chi tiết `docs/ai-usage.md`):
+- **Phân công có tên.** Mỗi người làm trọn phần của mình, có PR riêng. Ai cũng chạy được `run.py eval` / `simulate`. Chi tiết ở `TEAMS.md`, `introductions/phan_cong_cp3.md`.
+
+  | Người | CP1–CP2 | CP3 | CP4 |
+  |---|---|---|---|
+  | **Nguyễn Thành Nam** (đội trưởng) | Canvas, đào data (`evidence/count_review.py`, `count_struggle.py`, `data-mining.md`), phỏng vấn P1 cùng Trà, chốt chuẩn "đạt" | Spec §0, §1, §3–§6; khung `codebase/agent.py`, `tools.py`; soát và nộp | Spec §9–§10, `docs/ai-usage.md`, slide `demo-slides.pdf`, kịch bản demo, nộp |
+  | **Phùng Quang Trà** | Phỏng vấn P1 (`evidence/interviews/P1.md`) | `evidence/summary.md`, bảng impact §2 | `cost/personas.yaml`, `simulate-1`, `cost/cost-estimate.md`, §8 |
+  | **Lê Hiền Hiếu** | `eval/benchmark.csv` 14 câu, `metric_spec.yaml` | `data/DATA_CARD.md`, `question_bank.csv`, 24 câu, chạy và chấm lượt 1 | Chạy và chấm lượt 2, `eval/report.md`, `eval/README.md`, §7 |
+  | **Đặng Quang Duy** | — | Nối model thật (`codebase/ai.py`), giao diện, video | Sửa `agent.py` trước lượt 2, giao diện Streamlit, video dự phòng |
+- **Dùng AI vào việc gì:**
+  - Nam và Trà dùng Claude Code; Duy dùng Codex. AI được dùng để viết script đếm, viết code và soạn văn bản.
+  - Người trong nhóm kiểm mọi số bằng cách chạy lại script, và tự chấm cột `pass` (không dùng LLM chấm).
+  - `data/question_bank.csv` (19 câu) do AI soạn, có nhãn `synthetic`.
+  - Chi tiết ở `docs/ai-usage.md`.
 - Nhật ký thay đổi — **mọi thay đổi sau CP2 19:30 Thứ Sáu 27/11 phải có dòng ở đây**:
 
 **CP2 → CP4** (vd thu hẹp lát cắt, hỏi thêm người dùng, lần cải tiến trước lượt 2)
@@ -165,6 +190,7 @@ flowchart TD
 | 28/11 10:06 | Hiển thị nội dung khớp `ref` từ `question_bank.csv`, ghi rõ khi là câu ví dụ synthetic | Dễ đọc câu ôn mà không nhầm câu tự soạn với đề gốc |
 | 28/11 11:34 | Thêm `cost/personas.yaml` (3 persona, 3 kịch bản 3 / 5 / 10 người, giá 3 model), chạy `simulate --rate-from eval/run-2.csv` → `cost/simulate-1.csv`; điền `cost/cost-estimate.md` và §8; chốt `gpt-5.4-nano` là model chính | CP4 chi phí khi dùng thật (Trà); tỉ lệ đạt lấy đúng lượt 2 (15/24) theo phân công, không lấy lượt 1 |
 | 28/11 12:00 | `evidence/interviews/P1.md`, `evidence/summary.md`: chốt vai P1 = giảng viên, phụ trách học thuật (bỏ ghi chú "cần xác nhận vai"); `slides/outline.md` trang 6 điền số chi phí | TV2 (người hỏi P1) xác nhận vai; số chi phí chép từ `cost/cost-estimate.md` để Nam làm slide 6 — không đổi số bằng chứng nào |
+| 28/11 12:00 | Điền §9 (rủi ro & an toàn) và phần phân công / dùng AI ở §10; điền `docs/ai-usage.md` và mục "Dùng AI vào việc gì" trong README; thêm `demo-slides.pdf` + `slides/` (slide 8 trang, kịch bản demo); chép đủ câu chuẩn "đạt" vào `eval/README.md` §3 (bản trước bị cụt thành "Đạt", nội dung chuẩn không đổi); thêm `reflection/nam.md` | Hoàn thiện CP4 (Nam). Không đổi số, câu thử, chuẩn "đạt" hay kết quả các lượt |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

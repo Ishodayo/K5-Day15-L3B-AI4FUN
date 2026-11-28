@@ -27,7 +27,7 @@
 
 - **Người thứ hai chấm thử:** chưa thực hiện chấm chéo độc lập trong thời gian hackathon (Hiếu chấm toàn bộ theo đúng `pass_criterion` và `eval/metric_spec.yaml`, đối chiếu nhất quán giữa lượt 1 và lượt 2).
 - LLM chấm (nếu có): không dùng (chấm bằng code + người chấm).
-- **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "Đạt"
+- **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu có số liệu hoặc mã câu không có trong data (metric `so_lieu_co_nguon`)"
 
 ## 4. Lệnh
 
