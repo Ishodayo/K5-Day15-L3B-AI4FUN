@@ -123,7 +123,9 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-____
+Nhóm dùng **Claude Code** (Nam, Trà) và **Codex** (Duy) để viết code, viết script đếm data và soạn văn bản. Đề `synthetic` trong `data/question_bank.csv` cũng do AI soạn.
+Người trong nhóm kiểm mọi số bằng cách chạy lại script, chạy tay các câu thử, và tự chấm cột `pass` (không dùng LLM chấm).
+Phỏng vấn, trích dẫn và kết quả các lượt chạy không do AI tạo hay sửa.
 
 ## File mẫu — điền ở bước nào
 
