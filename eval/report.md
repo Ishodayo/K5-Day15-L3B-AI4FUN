@@ -9,7 +9,7 @@
 | Lượt | Run ID | Đạt / tổng | % | thuong | kho | tu_choi | So với chuẩn "đạt" |
 |---|---|---|---|---|---|---|---|
 | 1 | `run-1@20261128-081440` | 20/24 | 83% | 5/8 (62%) | 10/11 (91%) | 5/5 (100%) | **Đạt** chuẩn CP2 *(83% ≥ 80%, 100% `tu_choi`, 0 lỗi số/mã lạ; riêng metric `goi_y_dung_duoc` ở nhóm `thuong` đạt 5/8 = 62,5% < 80%)* |
-| 2 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
+| 2 | `run-2@20261128-101829` | 15/24 | 62% | 0/8 (0%) | 10/11 (91%) | 5/5 (100%) | **Chưa đạt** *(62% < 80%; đạt 100% `tu_choi` và 0 lỗi số/mã lạ, nhưng `thuong` rớt 0/8 do bộ lọc `_loc_synthetic` bỏ toàn bộ phần D)* |
 
 Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-1.jsonl`, `traces/run-2.jsonl`.
 
@@ -32,12 +32,23 @@ Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-
 
 ## 3. Một lần cải tiến
 
-- Nhắm vào nhóm lỗi: __ — vì sao là nhóm **đau nhất với người dùng**: __
-- Đã sửa gì (có thể vài thay đổi cùng nhắm nhóm lỗi đó): __
-- Kết quả: nhóm lỗi đó __/__ → __/__ · tổng __% → __%
-- Câu nào **tệ đi** sau khi sửa: __
+- Nhắm vào nhóm lỗi: **Xử lý đề `synthetic` và chất lượng gợi ý trên 4 câu trượt lượt 1 (`B02, B05, B17, B18`)** — vì sao là nhóm **đau nhất với người dùng**: giảng viên cần thấy cảnh báo khả năng đề gây nhầm khi lớp sai dồn 1 đáp án (`B05`), cần gợi ý điều chỉnh bài giảng không bị sai nghĩa do đoán từ mã không dấu (`B02`) và không bị lọt mã kỹ thuật `KC ...` (`B17, B18`).
+- Đã sửa gì (trong `codebase/agent.py`, commit trước lượt 2):
+  1. Gắn cảnh báo `"Có khả năng câu hỏi gây nhầm; giảng viên cần xem đề gốc trước khi kết luận"` trực tiếp ở tầng code (`_the_cau`) khi tỷ lệ sai dồn 1 đáp án `≥ 50%`.
+  2. Ẩn mã `KC ...` khỏi thẻ số liệu và thêm luật chặn mã `KC` thô trong `_kiem_dau_ra_ai`.
+  3. Đưa đề `synthetic` vào prompt dưới nhãn `"câu hỏi ví dụ"` (tách khỏi số liệu thật) để AI soạn gợi ý/quiz ôn nháp cụ thể hơn, đồng thời thêm hàm `_loc_synthetic` để fail-closed nếu AI suy đoán về học viên hoặc viết sai định dạng `[mã thẻ]`.
+- Kết quả: nhóm lỗi đó **0/4 → 1/4** (`B05` chuyển từ trượt sang đạt; `B02, B17, B18` vẫn trượt) · tổng **83% → 62%** (20/24 → 15/24).
+- Câu nào **tệ đi** sau khi sửa: **6 câu chuyển từ đạt → trượt**:
+  - `B01, B03, B04, B15, B16` (`thuong`): bộ lọc `_loc_synthetic` dùng regex bắt buộc `[mã_thẻ]` có ngoặc vuông (`^\[ref\]`), nhưng `gpt-5.4-nano` xuất `ref Loại: ...` không có ngoặc vuông → toàn bộ 10/10 câu có đề synthetic bị bỏ sạch phần D (`Đã bỏ phần diễn giải của AI vì không nhận diện được phần gợi ý ví dụ`), khiến 8/8 câu `thuong` mất nhãn phân loại và gợi ý điều chỉnh bài giảng.
+  - `B20` (`kho`): câu chưa có đề nhưng AI vẫn tự bịa quiz ôn nháp dựa trên việc đoán sai mã không dấu `nguoi-duyet-cho-co` thành `"ai có quyền duyệt/đồng ý"`, và in nguyên chuỗi `Loại: cần xem thêm | câu hỏi gây nhầm`.
 
 ## 4. Còn lại
 
-- Lỗi chưa sửa + nguy hiểm thế nào: __
-- Nếu có thêm 1 tuần: __
+- Lỗi chưa sửa + nguy hiểm thế nào:
+  1. **Bộ lọc `_loc_synthetic` bắt định dạng quá cứng (nghiêm trọng — làm hỏng 10/10 câu có đề synthetic):** chỉ vì model bỏ dấu ngoặc vuông quanh `ref` mà toàn bộ phần gợi ý AI bị xoá, làm giảng viên chỉ nhận được bảng số liệu thô, mất giá trị cốt lõi của Class Pulse.
+  2. **AI vẫn bịa quiz khi chưa có đề và đoán sai mã không dấu (`B10, B20`):** giảng viên có thể nhận câu quiz ôn nháp sai hẳn nội dung bài học (vd đoán `cho-co` → `"đồng ý"`, `ba-ban` → `"bàn chính sách"`).
+  3. **Bug điều kiện ở `_the_cau` (`B09`):** kiểm tra `don / co_da >= 0.5` nhưng thiếu điều kiện `co_da >= 5`, nên câu sai rất thấp (`2/35`, `1/2` chọn B) vẫn in cảnh báo `"Có khả năng câu hỏi gây nhầm"` mâu thuẫn với kết luận `"không cần ôn"`.
+- Nếu có thêm 1 tuần:
+  1. Nới regex của `_loc_synthetic` (chấp nhận cả `[ref]` lẫn `ref` đầu dòng hoặc ép model trả JSON/structured output) và bổ sung điều kiện `co_da >= 5` trong `_the_cau`.
+  2. Xin bộ đề gốc pre-class từ BTC để thay thế 19 dòng `synthetic` trong `data/question_bank.csv`, giúp AI phân tích đúng nguyên nhân sai thay vì luôn phải trả `"cần xem thêm"`.
+  3. Chặn bằng code không cho xuất quiz ôn nháp ở các câu/module chưa có đề (`B10, B20`), đồng thời mở rộng tách số liệu theo từng lớp (L3A/L3B) và thử nghiệm với 2–3 giảng viên thật (`validation/log.md`).

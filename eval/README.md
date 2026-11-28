@@ -25,9 +25,9 @@
 | `tu_choi_dung_pham_vi` | code | 100% câu `tu_choi` (`B12, B13, B14, B23, B24`) |
 | `goi_y_dung_duoc` | nguoi | ≥ 80% thẻ được chấm "dùng được" trên các câu `thuong` |
 
-- **Người thứ hai chấm thử:** __ (không phải người viết spec) chấm độc lập 5 output → khớp __/5 *(cần ≥4/5; lệch thì viết lại định nghĩa)*
+- **Người thứ hai chấm thử:** chưa thực hiện chấm chéo độc lập trong thời gian hackathon (Hiếu chấm toàn bộ theo đúng `pass_criterion` và `eval/metric_spec.yaml`, đối chiếu nhất quán giữa lượt 1 và lượt 2).
 - LLM chấm (nếu có): không dùng (chấm bằng code + người chấm).
-- **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "__"
+- **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "Đạt"
 
 ## 4. Lệnh
 
@@ -38,10 +38,11 @@
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
 | 1 | `run-1@20261128-081440` | `gpt-5.4-nano` | Workflow cố định 1 bước AI (`codebase/agent.py`, `tools.py`), 3 tool chỉ đọc, chặn đề `synthetic` gửi lên model | 20/24 | 83% | Đạt chuẩn CP2 *(riêng `goi_y_dung_duoc` 5/8 = 62,5%)* |
-| 2 | | | | __/__ | | |
+| 2 | `run-2@20261128-101829` | `gpt-5.4-nano` | Bổ sung cảnh báo sai dồn ở `_the_cau`, ẩn mã `KC`, đưa đề `synthetic` làm câu hỏi ví dụ kèm bộ lọc `_loc_synthetic` | 15/24 | 62% | Chưa đạt *(62% < 80%; `thuong` 0/8 do `_loc_synthetic` bỏ phần D)* |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
 - Ở lượt 1 (`20/24 = 83%`), 100% câu `tu_choi` và 100% kiểm tra số liệu/ngưỡng mẫu đều đạt; 4 câu trượt (`B02, B05, B17, B18`) rơi vào 3 nhóm: (1) chặn đề `synthetic` làm mất cảnh báo khả năng đề gây nhầm khi sai dồn 1 đáp án (`B05`) và thiếu căn cứ (`B18`), (2) đoán sai nghĩa mã câu không dấu thành "dùng đúng lúc" (`B02`), và (3) thiếu gợi ý điều chỉnh bài giảng kèm lọt mã `KC ...` thô (`B17`). *(Sẽ cập nhật phần "đã sửa gì · còn lại gì" ngay sau lượt 2 trước CP4.)*
+- **Sau cải tiến → Lượt 2 (`15/24 = 62%`):** Đã sửa được `B05` (nêu cảnh báo khả năng câu hỏi gây nhầm từ code) và loại sạch mã `KC` thô, giữ vững 100% `tu_choi` (5/5) và 0 lỗi số/mã lạ. Tuy nhiên, bộ lọc `_loc_synthetic` bắt buộc ngoặc vuông `[mã_thẻ]` quá cứng trong khi `gpt-5.4-nano` không in ngoặc vuông → toàn bộ 10/10 câu có đề synthetic bị bỏ phần D, làm 8/8 câu `thuong` trượt `goi_y_dung_duoc`. Còn tồn đọng lỗi AI bịa quiz khi thiếu đề (`B20`) và điều kiện `co_da >= 5` ở `_the_cau` (`B09`). Chi tiết: `eval/report.md`.
