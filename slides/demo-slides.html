@@ -48,6 +48,21 @@
   .verdict { font-size: 56px; font-weight: 800; color: #b07d10; letter-spacing: .02em; margin: 0 0 6px; }
   .title-slide h1 { font-size: 54px; margin-top: 120px; }
   .tag { display: inline-block; font-size: 14px; padding: 3px 10px; border-radius: 999px; background: #eef6f3; color: #2f6f62; font-weight: 600; margin-right: 6px; }
+
+  /* Chế độ trình chiếu: 1 trang / màn hình, tự co theo cửa sổ */
+  @media screen {
+    html, body { height: 100%; overflow: hidden; background: #111; }
+    .slide { position: absolute; top: 50%; left: 50%; margin: 0; display: none;
+             transform-origin: center center; transform: translate(-50%, -50%) scale(var(--k, 1)); }
+    .slide.on { display: flex; }
+    .hud { position: fixed; right: 14px; bottom: 10px; font: 13px "Segoe UI", Arial, sans-serif; color: #9aa1ad;
+           user-select: none; z-index: 10; }
+    .hud b { color: #d7dbe1; font-weight: 600; }
+    body.overview { overflow: auto; background: #e9ecef; }
+    body.overview .slide { display: flex; position: relative; top: auto; left: auto; transform: none; margin: 0 auto 24px; }
+    body.overview .hud { display: none; }
+  }
+  @media print { .hud { display: none; } }
 </style>
 </head>
 <body>
@@ -222,5 +237,41 @@ B. ai-llm-foundation:module-2: 115 câu hỏi trợ giảng
   <div class="foot"><span>Repo: github.com/Ishodayo/K5-Day15-L3B-AI4FUN</span><span>AI4FUN · L3B · Track A</span></div>
 </section>
 
+
+<div class="hud"><b id="pg">1 / 8</b> · ← → / Space chuyển trang · F toàn màn hình · O xem tất cả</div>
+<script>
+(function () {
+  var S = [].slice.call(document.querySelectorAll('.slide')), i = 0;
+  var pg = document.getElementById('pg');
+  function fit() {
+    var k = Math.min(innerWidth / 1280, innerHeight / 720);
+    document.documentElement.style.setProperty('--k', k);
+  }
+  function go(n) {
+    i = Math.max(0, Math.min(S.length - 1, n));
+    S.forEach(function (s, j) { s.classList.toggle('on', j === i); });
+    pg.textContent = (i + 1) + ' / ' + S.length;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  addEventListener('resize', fit);
+  addEventListener('keydown', function (e) {
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter') { e.preventDefault(); go(i + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); go(i - 1); }
+    else if (k === 'Home') go(0);
+    else if (k === 'End') go(S.length - 1);
+    else if (k === 'f' || k === 'F') {
+      if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen();
+    } else if (k === 'o' || k === 'O') document.body.classList.toggle('overview');
+    else if (/^[1-8]$/.test(k)) go(+k - 1);
+  });
+  addEventListener('click', function (e) {
+    if (document.body.classList.contains('overview') || e.target.closest('a')) return;
+    go(e.clientX > innerWidth / 3 ? i + 1 : i - 1);
+  });
+  fit();
+  go((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
 </body>
 </html>

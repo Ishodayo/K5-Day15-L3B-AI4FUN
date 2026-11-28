@@ -191,6 +191,7 @@ flowchart TD
 | 28/11 11:34 | Thêm `cost/personas.yaml` (3 persona, 3 kịch bản 3 / 5 / 10 người, giá 3 model), chạy `simulate --rate-from eval/run-2.csv` → `cost/simulate-1.csv`; điền `cost/cost-estimate.md` và §8; chốt `gpt-5.4-nano` là model chính | CP4 chi phí khi dùng thật (Trà); tỉ lệ đạt lấy đúng lượt 2 (15/24) theo phân công, không lấy lượt 1 |
 | 28/11 12:00 | `evidence/interviews/P1.md`, `evidence/summary.md`: chốt vai P1 = giảng viên, phụ trách học thuật (bỏ ghi chú "cần xác nhận vai"); `slides/outline.md` trang 6 điền số chi phí | TV2 (người hỏi P1) xác nhận vai; số chi phí chép từ `cost/cost-estimate.md` để Nam làm slide 6 — không đổi số bằng chứng nào |
 | 28/11 12:00 | Điền §9 (rủi ro & an toàn) và phần phân công / dùng AI ở §10; điền `docs/ai-usage.md` và mục "Dùng AI vào việc gì" trong README; thêm `demo-slides.pdf` + `slides/` (slide 8 trang, kịch bản demo); chép đủ câu chuẩn "đạt" vào `eval/README.md` §3 (bản trước bị cụt thành "Đạt", nội dung chuẩn không đổi); thêm `reflection/nam.md` | Hoàn thiện CP4 (Nam). Không đổi số, câu thử, chuẩn "đạt" hay kết quả các lượt |
+| 28/11 12:15 | `slides/demo-slides.html` thêm chế độ trình chiếu (1 trang / màn hình, phím ← → / Space, F toàn màn hình, O xem tất cả); nội dung slide và `demo-slides.pdf` không đổi | Trình chiếu thẳng từ trình duyệt khi demo |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

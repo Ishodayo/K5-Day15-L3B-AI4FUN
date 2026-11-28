@@ -6,6 +6,7 @@
 
 - Cài máy: `pip install -r requirements.txt`, có `.env` (`MODEL_PROVIDER=openai`, `MODEL_NAME=gpt-5.4-nano`). Gọi thử 1 câu trong vòng 1 giờ trước giờ demo.
 - Mở sẵn `python run.py` (Streamlit) và một cửa sổ `python codebase/app.py --cli` để dự phòng.
+- Trình chiếu: mở `slides/demo-slides.html` bằng Chrome / Edge → bấm **F** (toàn màn hình) → **← →** hoặc Space để chuyển trang, phím **1–8** để nhảy tới trang, **O** để xem tất cả. Nếu không mở được HTML thì dùng `demo-slides.pdf`.
 - Mở sẵn video dự phòng (link trong `README.md`) bằng tab ẩn danh.
 - Mở sẵn `traces/run-2.jsonl` và `eval/run-2.csv`, vì giám khảo có thể đòi xem trace của một câu trượt.
 
